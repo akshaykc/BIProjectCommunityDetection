@@ -1,6 +1,7 @@
 library(igraph)
-#install.packages("akmeans")
+install.packages("akmeans")
 library("akmeans")
+setwd("/home/achaluv/Documents/academics/BI/06.Topic-7.Project-6.MarketSegmentation.AttributedGraphCommunityDetection/")
 
 ## Influence Propagation
 # Arguments:
@@ -79,17 +80,17 @@ influence_propagation <- function(graph, comm, beta=0.75){
 ## Influence Propagation Example
 
 # ===== Reading the graph ====== #
-g <- read.graph(file="data/fb_caltech_small_edgelist.txt", format = c("edgelist"))
+g <- read.graph(file="/home/achaluv/Documents/academics/BI/06.Topic-7.Project-6.MarketSegmentation.AttributedGraphCommunityDetection/data/fb_caltech_small_edgelist.txt", format = c("edgelist"))
 
 # ===== Read communities file ==== #
 comm = integer(vcount(g))
 
-conn <- file("communities.txt", open="r")
+conn <- file("/home/achaluv/Documents/academics/BI/06.Topic-7.Project-6.MarketSegmentation.AttributedGraphCommunityDetection/communities.txt", open="r")
 lines <-readLines(conn)
 for (i in 1:length(lines)){
-    verts = unlist(strsplit(lines[i], ","))
-    verts = as.integer(verts) + 1   # R indexes start at 1
-    comm[verts] = i
+  verts = unlist(strsplit(lines[i], ","))
+  verts = as.integer(verts) + 1   # R indexes start at 1
+  comm[verts] = i
 }
 close(conn)
 
@@ -103,7 +104,7 @@ akm = akmeans(attrData, d.metric=2, ths3=.4, mode=3,
 op1 = influence_propagation(graph=g, comm = akm$cluster)
 
 # ===== Influence Propagation Using SAC-1 communities  ===== #
-op2 = influence_propagation(graph=g, comm = comm)
+op2 = influence_propagation(graph=g, comm = comm[2:325])
 
 print("here")
 
